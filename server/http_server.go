@@ -2,14 +2,14 @@ package server
 
 import (
 	"net/http"
-	"github.com/cyberpunkz/cyberpunk/logger"
+	"github.com/cyberpunkz/cyberpunk/proxy"
 )
 
 func StartHttpServer(port string) error  {
 	err := http.ListenAndServe(":" + port, nil)
 
 	if err != nil {
-		logger.Error(err)
+		proxy.Log().Error(err)
 	}
 
 	return err

@@ -7,6 +7,8 @@ import (
 )
 
 type Config struct {
+	logger logger.Logger
+	logConfig logger.LogConfig
 	frontendPath string
 }
 
@@ -16,9 +18,29 @@ var once sync.Once
 func GetInstance() *Config {
 	once.Do(func() {
 		instance = &Config{}
+		instance.DisableLogWriting()
 	})
 
 	return instance
+}
+
+func (instance *Config) SetLogDirPath(path string) {
+	logConfig := logger.LogConfig{Path:path}
+	instance.logConfig = logConfig
+}
+
+func (instance *Config) EnableLogWriting() {
+	instance.logger = logger.GetFile()
+	instance.logger.AddLogConfig(instance.logConfig)
+}
+
+func (instance *Config) DisableLogWriting() {
+	instance.logger = logger.GetConsole()
+	instance.logger.AddLogConfig(instance.logConfig)
+}
+
+func (instance *Config) GetCurrentLogger() logger.Logger {
+	return instance.logger
 }
 
 func (instance *Config) SetFrontendDir(dir string) error {
@@ -26,7 +48,7 @@ func (instance *Config) SetFrontendDir(dir string) error {
 	instance.frontendPath = appDir + "/" + dir
 
 	if err != nil {
-		logger.Error(err)
+		instance.logger.Error(err)
 	}
 
 	return err
