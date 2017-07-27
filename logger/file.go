@@ -6,8 +6,10 @@ import (
 	"os"
 )
 
-type File struct{
+type File struct {
 	logConfig LogConfig
+	error     *log.Logger
+	debug     *log.Logger
 }
 
 var file *File
@@ -23,38 +25,19 @@ func GetFile() *File {
 
 func (*File) AddLogConfig(logConfig LogConfig) {
 	file.logConfig = logConfig
+	flag := log.LstdFlags | log.Lmicroseconds | log.Llongfile
+
+	out, _ := os.Create(logConfig.Path + "/error.log")
+	file.error = log.New(out, "Error: ", flag)
+
+	out, _ = os.Create(logConfig.Path + "/debug.log")
+	file.debug = log.New(out, "Debug: ", flag)
 }
 
-func (*File) Error(err error) {
-	writeLog(file.logConfig.Path + "/error", err.Error())
+func (*File) Error() *log.Logger {
+	return file.error
 }
 
-func (*File) Warning(msg string) {
-	writeLog(file.logConfig.Path + "/warning", msg)
-}
-
-func (*File) Notice(msg string) {
-	writeLog(file.logConfig.Path + "/notice", msg)
-}
-
-func (*File) Ok(msg string) {
-	writeLog(file.logConfig.Path + "/ok", msg)
-}
-
-func writeLog(filePath string, text string) {
-	f, err := os.OpenFile(
-		filePath + ".log",
-		os.O_CREATE|os.O_APPEND|os.O_WRONLY,
-		0600,
-	)
-
-	if err != nil {
-		log.Println(err)
-	}
-
-	defer f.Close()
-
-	if _, err = f.WriteString(text + "\r\n"); err != nil {
-		log.Println(err)
-	}
+func (*File) Debug() *log.Logger {
+	return file.debug
 }

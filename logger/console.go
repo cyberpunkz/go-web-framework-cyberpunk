@@ -3,10 +3,13 @@ package logger
 import (
 	"log"
 	"sync"
+	"os"
 )
 
 type Console struct{
 	logConfig LogConfig
+	debug *log.Logger
+	error *log.Logger
 }
 
 var console *Console
@@ -22,19 +25,14 @@ func GetConsole() *Console {
 
 func (*Console) AddLogConfig(logConfig LogConfig) {
 	console.logConfig = logConfig
+
+	console.debug = log.New(os.Stdout, "Debug: ", log.Ldate|log.Ltime|log.Llongfile)
+	console.error = log.New(os.Stderr, "Error: ", log.Ldate|log.Ltime|log.Llongfile)
 }
-func (*Console) Error(err error) {
-	log.Println(err)
+func (*Console) Error() *log.Logger {
+	return console.error
 }
 
-func (*Console) Warning(msg string) {
-	log.Printf("Warning: " + msg)
-}
-
-func (*Console) Notice(msg string) {
-	log.Printf("Notice: " + msg)
-}
-
-func (*Console) Ok(msg string) {
-	log.Printf("Ok: " + msg)
+func (*Console) Debug() *log.Logger {
+	return console.debug
 }

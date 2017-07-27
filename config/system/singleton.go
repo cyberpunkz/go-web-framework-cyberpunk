@@ -24,7 +24,7 @@ func GetInstance() *Config {
 	return instance
 }
 
-func (instance *Config) SetLogDirPath(path string) {
+func (instance *Config) InitLogger(path string) {
 	logConfig := logger.LogConfig{Path:path}
 	instance.logConfig = logConfig
 }
@@ -48,7 +48,7 @@ func (instance *Config) SetFrontendDir(dir string) error {
 	instance.frontendPath = appDir + "/" + dir
 
 	if err != nil {
-		instance.logger.Error(err)
+		instance.logger.Error().Println(err)
 	}
 
 	return err

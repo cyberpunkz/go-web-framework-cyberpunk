@@ -1,9 +1,9 @@
 package logger
 
+import "log"
+
 type Logger interface {
 	AddLogConfig(logConfig LogConfig)
-	Error(err error)
-	Warning(msg string)
-	Notice(msg string)
-	Ok(msg string)
+	Error() *log.Logger
+	Debug() *log.Logger
 }

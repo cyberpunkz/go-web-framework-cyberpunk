@@ -13,7 +13,7 @@ func Render(w http.ResponseWriter, routeName string, page interface{}) (err erro
 
 	if len(templateFiles) == 0 {
 		err = errors.New("There are no registered templates to rendering the page!")
-		proxy.Log().Error(err)
+		proxy.Error().Println(err)
 		return
 	}
 
@@ -21,7 +21,7 @@ func Render(w http.ResponseWriter, routeName string, page interface{}) (err erro
 	err = templates.ExecuteTemplate(w, routeName + ".html", page)
 
 	if err != nil {
-		proxy.Log().Error(err)
+		proxy.Error().Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
