@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	logger logger.Logger
-	logConfig logger.LogConfig
+	logger       logger.Logger
+	logConfig    logger.LogConfig
 	frontendPath string
 }
 
@@ -48,7 +48,7 @@ func (instance *Config) SetFrontendDir(dir string) error {
 	instance.frontendPath = appDir + "/" + dir
 
 	if err != nil {
-		instance.logger.Error().Println(err)
+		instance.logger.Error(err)
 	}
 
 	return err

@@ -6,19 +6,15 @@ import (
 	"github.com/cyberpunkz/cyberpunk/view"
 	"net/http"
 	"github.com/cyberpunkz/cyberpunk/routes"
-	"log"
+	"github.com/cyberpunkz/cyberpunk/logger"
 )
 
 func GetSystemConfig() *system.Config {
 	return system.GetInstance()
 }
 
-func Error() *log.Logger {
-	return GetSystemConfig().GetCurrentLogger().Error()
-}
-
-func Debug() *log.Logger {
-	return GetSystemConfig().GetCurrentLogger().Debug()
+func Log() logger.Logger {
+	return GetSystemConfig().GetCurrentLogger()
 }
 
 func GetTemplateRegister() *view.TemplateRegister {

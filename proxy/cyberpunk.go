@@ -2,17 +2,14 @@ package proxy
 
 import (
 	"github.com/cyberpunkz/cyberpunk/config/system"
-	"log"
+	"github.com/cyberpunkz/cyberpunk/logger"
 )
 
 func GetSystemConfig() *system.Config {
 	return system.GetInstance()
 }
 
-func Error() *log.Logger {
-	return GetSystemConfig().GetCurrentLogger().Error()
+func Log() logger.Logger {
+	return GetSystemConfig().GetCurrentLogger()
 }
 
-func Debug() *log.Logger {
-	return GetSystemConfig().GetCurrentLogger().Debug()
-}

@@ -4,6 +4,7 @@ import (
 	"log"
 	"sync"
 	"os"
+	"fmt"
 )
 
 type File struct {
@@ -25,7 +26,7 @@ func GetFile() *File {
 
 func (*File) AddLogConfig(logConfig LogConfig) {
 	file.logConfig = logConfig
-	flag := log.LstdFlags | log.Lmicroseconds | log.Llongfile
+	flag := log.LstdFlags | log.Lmicroseconds
 
 	out, _ := os.Create(logConfig.Path + "/error.log")
 	file.error = log.New(out, "Error: ", flag)
@@ -34,10 +35,14 @@ func (*File) AddLogConfig(logConfig LogConfig) {
 	file.debug = log.New(out, "Debug: ", flag)
 }
 
-func (*File) Error() *log.Logger {
-	return file.error
+func (*File) Error(err ...interface{}) {
+	msg := getPrefix()
+	file.error.Printf(fmt.Sprintln(err) + msg)
+	log.Printf(fmt.Sprintln(err) + msg)
 }
 
-func (*File) Debug() *log.Logger {
-	return file.debug
+func (*File) Debug(msg string) {
+	msg = getPrefix() + msg
+	file.debug.Printf(msg)
+	log.Printf(msg)
 }

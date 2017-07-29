@@ -9,7 +9,7 @@ func StartHttpServer(port string) error  {
 	err := http.ListenAndServe(":" + port, nil)
 
 	if err != nil {
-		proxy.Error().Println(err)
+		proxy.Log().Error(err)
 	}
 
 	return err
