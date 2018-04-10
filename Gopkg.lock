@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/go-gomail/gomail"
+  packages = ["."]
+  revision = "41f3572897373c5538c50a2402db15db079fa4fd"
+  version = "2.0.0"
+
+[[projects]]
   name = "github.com/go-sql-driver/mysql"
   packages = ["."]
   revision = "a0583e0143b1624142adab07e0e97fe106d99561"
@@ -25,9 +31,15 @@
   revision = "1933dd69e294c0a26c0266637067f24dbb25770c"
   version = "v0.6.4"
 
+[[projects]]
+  branch = "v3"
+  name = "gopkg.in/alexcesaro/quotedprintable.v3"
+  packages = ["."]
+  revision = "2caba252f4dc53eaf6b553000885530023f54623"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "56655444d15adc874b3c6a38851a5402a3eeadd54fc809004173bd5c7ee10c04"
+  inputs-digest = "1c25539bd6e664cac5560fec32d9e3b9b2bfb5ccd16dacc2040e4458d3c6126e"
   solver-name = "gps-cdcl"
   solver-version = 1
